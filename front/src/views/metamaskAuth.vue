@@ -2,8 +2,15 @@
     <div id=auth>
         <h1>SUSHIゲーム(仮)</h1>
         <img alt="SHUSHI" src="../assets/SUSHI.png">
-        <button class="startButton" v-on:click="routeMain">スタート</button>
-        <button class="explanationGame" v-on:click="explanationGameModal">SUSHIゲームとは</button>
+        <dev class="authButton">
+            <button class="startButton" v-on:click="routeMain">スタート</button>
+            <button class="explanationGame" v-on:click="explanationGameModal">SUSHIゲームとは</button>
+        </dev>
+        <!-- entranceButtonはmetamask接続確認後に表示する -->
+        <dev class="entranceButton">
+            <button class="continueButton">続きから</button>
+            <button class="beginButton">最初から</button>
+        </dev>
         <div id="overlay" v-show="showContent">
             <div id="content">
                 <p>SUSHIゲームについての説明</p>
@@ -58,6 +65,26 @@ export default Vue.extend({
 }
 
 .startButton {
+    width: 250px;
+    height: 100px;
+    border-color: #842F00;
+    border-radius: 5px;
+    font-size: 50px;
+    color: #842F00;
+    background-color : hsl(40, 100%, 78%);
+}
+
+.beginButton {
+    width: 250px;
+    height: 100px;
+    border-color: #842F00;
+    border-radius: 5px;
+    font-size: 50px;
+    color: #842F00;
+    background-color : hsl(40, 100%, 78%);
+}
+
+.continueButton {
     width: 250px;
     height: 100px;
     border-color: #842F00;
