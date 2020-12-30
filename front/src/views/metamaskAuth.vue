@@ -2,15 +2,16 @@
     <div id=auth>
         <h1>SUSHIゲーム(仮)</h1>
         <img alt="SHUSHI" src="../assets/SUSHI.png">
-        <dev class="authButton">
+        <div class="authButton">
             <button class="startButton" v-on:click="routeMain">スタート</button>
             <button class="explanationGame" v-on:click="explanationGameModal">SUSHIゲームとは</button>
-        </dev>
+        </div>
         <!-- entranceButtonはmetamask接続確認後に表示する -->
-        <dev class="entranceButton">
-            <button class="continueButton">続きから</button>
-            <button class="beginButton">最初から</button>
-        </dev>
+        <div class="entranceButton">
+            <button class="continueButton" >続きから</button>
+            <button class="beginButton" @click="basicModalShow">最初から</button>
+        </div>
+        <Basic-Modal></Basic-Modal>
         <div id="overlay" v-show="showContent">
             <div id="content">
                 <p>SUSHIゲームについての説明</p>
@@ -22,15 +23,24 @@
 
 
 <script>
-import Vue from 'vue'
-export default Vue.extend({
+// import Vue from 'vue'
+import { mapMutations } from 'vuex'
+import BasicModal from '@/components/standardValue.vue'
+
+export default{
     name: "metamaskAuth",
+    components: {
+        BasicModal
+    },
     data (){
         return {
             showContent: false
         }
     },
     methods: {
+        ...mapMutations('basicModal', {
+            basicModalShow: 'show'
+        }),
         routeMain(){
             this.$router.push('/main')
         },
@@ -41,7 +51,7 @@ export default Vue.extend({
             this.showContent = false
         }
     }
-})
+}
 </script>
 
 <style scoped>
