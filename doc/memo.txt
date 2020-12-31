@@ -1,0 +1,7 @@
+modalの処理
+
+vuexで管理。main.jsに登録することでstoreをプロジェクト全体が使えるようになる。
+store.index.jsがvuexのインスタンスを生成。このときにmoduleを登録する。moduelのimportと、mian.jsへのexportを忘れずに。
+moduleの中で、具体的なstateやらmutationの処理をする。こうすると複数の状態管理を扱える。
+
+モーダルとして呼び出されるコンポーネントを作っておく。StandardValue

@@ -4,15 +4,15 @@
         <img alt="SHUSHI" src="../assets/SUSHI.png">
         <div class="authButton">
             <button class="startButton" v-on:click="routeMain">スタート</button>
-            <button class="explanationGame" v-on:click="explanationGameModal">SUSHIゲームとは</button>
+            <button class="ExplanationGame" v-on:click="ExplanationGameModal">SUSHIゲームとは</button>
         </div>
         <!-- entranceButtonはmetamask接続確認後に表示する -->
         <div class="entranceButton">
             <button class="continueButton" >続きから</button>
-            <button class="beginButton" @click="basicModalShow">最初から</button>
+            <button class="beginButton" @click="BasicModalShow">最初から</button>
         </div>
         <Basic-Modal></Basic-Modal>
-        <div id="overlay" v-show="showContent">
+        <div id="overlay1" v-show="showContent">
             <div id="content">
                 <p>SUSHIゲームについての説明</p>
                 <p><button v-on:click="closeModal">close</button></p>
@@ -25,10 +25,10 @@
 <script>
 // import Vue from 'vue'
 import { mapMutations } from 'vuex'
-import BasicModal from '@/components/standardValue.vue'
+import BasicModal from '@/components/StandardValue.vue'
 
 export default{
-    name: "metamaskAuth",
+    name: "MetamaskAuth",
     components: {
         BasicModal
     },
@@ -38,13 +38,13 @@ export default{
         }
     },
     methods: {
-        ...mapMutations('basicModal', {
-            basicModalShow: 'show'
+        ...mapMutations('BasicModal', {
+            BasicModalShow: 'show'
         }),
         routeMain(){
             this.$router.push('/main')
         },
-        explanationGameModal (){
+        ExplanationGameModal (){
             this.showContent = true
         },
         closeModal (){
@@ -104,7 +104,7 @@ export default{
     background-color : hsl(40, 100%, 78%);
 }
 
-.explanationGame{
+.ExplanationGame{
     width: 200px;
     height: 70px;
     margin: 50px;
@@ -115,7 +115,7 @@ export default{
     background-color:rgba(0,0,0,0);
 }
 
-#overlay{
+#overlay1{
     /* 要素を重ねた時の順番 */
     z-index:1;
 

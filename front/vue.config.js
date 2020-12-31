@@ -1,27 +1,39 @@
-// module.exports = {
-//   module: {
-//     rules: [
-//       {
-//         test: /\.s[ac]ss$/i,
-//         use: [
-//           // Creates `style` nodes from JS strings
-//           "style-loader",
-//           // Translates CSS into CommonJS
-//           "css-loader",
-//           // Compiles Sass to CSS
-//           "sass-loader",
-//         ],
-//       },
-//     ],
-//   },
-// };
-
-var Promise = require('es6-promise').Promise;
-var path = require('path');
-
+const VueLoaderPlugin = require("vue-loader/lib/plugin")
 module.exports = {
-    context: path.join(__dirname, 'src'),
-    entry: {
-        myEntry: './my/entry.js'
-    }
+    mode: "development",
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: "vue-loader",
+            },
+            {
+                test: /\.js$/,
+                loader: "babel-loader",
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    "vue-style-loader",
+                    {
+                        loader: "css-loader",
+                        options: { sourceMap: true },
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: { sourceMap: true },
+                    },
+            ],
+            },
+        ]
+    },
+    plugins: [
+        new VueLoaderPlugin()
+    ],
+    resolve: {
+        extensions: [".vue", ".js"],
+        alias: {
+            "vue$": "vue/dist/vue.esm.js"
+        }
+    },
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Start from './views/metamaskAuth.vue'
-import HomeView from './views/homeView.vue'
+import Start from './views/MetamaskAuth.vue'
+import HomeView from './views/HomeView.vue'
 
 Vue.use(Router)
 
@@ -16,7 +16,7 @@ export default new Router({
         },
         {
         path: '/main',
-        name: 'homeView',
+        name: 'HomeView',
         component: HomeView
         }        
     ]
