@@ -1,0 +1,22 @@
+.label {
+    display: inline-block;
+    margin: 10px;
+    width: 200px;
+    line-height: 50px;
+    border-radius: 5px;
+    font-size: 1.4rem;
+    color: #fff;
+    text-align: center;
+}
+
+$panel-colors: (
+    "easy": #28C700,
+    "hard": #FF5C00,
+    "hell": #CD0202
+);
+
+@each $key, $value in $panel-colors {
+    .panel-#{$key} {
+        background-color: $value;
+    }
+}  

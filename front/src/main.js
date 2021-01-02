@@ -3,7 +3,7 @@ import router from './router'
 import App from './App.vue'
 import store from './store'
 
-// require('@/src/assets/scss/style.scss')
+// require('@/assets/sass/modal.scss')
 
 Vue.config.productionTip = false
 

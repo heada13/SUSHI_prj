@@ -4,14 +4,17 @@
         <img alt="SHUSHI" src="../assets/SUSHI.png">
         <div class="authButton">
             <button class="startButton" v-on:click="routeMain">スタート</button>
-            <button class="ExplanationGame" v-on:click="ExplanationGameModal">SUSHIゲームとは</button>
+            <button class="explanationButton" v-on:click="ExplanationGameModal">SUSHIゲームとは</button>
         </div>
         <!-- entranceButtonはmetamask接続確認後に表示する -->
         <div class="entranceButton">
             <button class="continueButton" >続きから</button>
             <button class="beginButton" @click="BasicModalShow">最初から</button>
+            <Multi-modal-view></Multi-modal-view>
         </div>
-        <Basic-Modal></Basic-Modal>
+        <!-- <Basic-Modal></Basic-Modal>
+        <button @click="DifficultySet">DifficultySet</button>
+        <button @click="showSushiSelect">showSushiSelect</button> -->
         <div id="overlay1" v-show="showContent">
             <div id="content">
                 <p>SUSHIゲームについての説明</p>
@@ -25,12 +28,14 @@
 <script>
 // import Vue from 'vue'
 import { mapMutations } from 'vuex'
-import BasicModal from '@/components/StandardValue.vue'
+// import BasicModal from '@/components/StandardValue.vue'
+import MultiModalView from '@/components/MultiModalView.vue'
 
 export default{
     name: "MetamaskAuth",
     components: {
-        BasicModal
+        // BasicModal,
+        MultiModalView
     },
     data (){
         return {
@@ -41,6 +46,8 @@ export default{
         ...mapMutations('BasicModal', {
             BasicModalShow: 'show'
         }),
+        // ...mapActions('multiModal', ['DifficultySet', 'showSushiSelect'])
+        // ,
         routeMain(){
             this.$router.push('/main')
         },
@@ -54,7 +61,8 @@ export default{
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+@import '@/assets/sass/ExplanationButton.scss';
 
 #auth {
     height: 100vh;
@@ -102,17 +110,6 @@ export default{
     font-size: 50px;
     color: #842F00;
     background-color : hsl(40, 100%, 78%);
-}
-
-.ExplanationGame{
-    width: 200px;
-    height: 70px;
-    margin: 50px;
-    border-color: #28C700;
-    border-radius: 5px;
-    font-size: 100%;
-    color: #28C700;
-    background-color:rgba(0,0,0,0);
 }
 
 #overlay1{
