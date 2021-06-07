@@ -2,84 +2,83 @@
     <div id=auth>
         <h1>SUSHIゲーム(仮)</h1>
         <img alt="SHUSHI" src="../assets/SUSHI.png">
-        <div class="authButton">
-            <button class="startButton" v-on:click="routeMain">スタート</button>
-            <button class="explanationButton" v-on:click="ExplanationGameModal">SUSHIゲームとは</button>
+        <div @click="changeCurrentMenu('StarButton')">
+            <StartMenu v-show="currentMenu=='StartMenu'">
+            </StartMenu>
+            <StartButton v-show="currentMenu=='StarButton'">
+            </StartButton>
         </div>
         <!-- entranceButtonはmetamask接続確認後に表示する -->
-        <div class="entranceButton">
-            <button class="continueButton" >続きから</button>
-            <button class="beginButton" @click="BasicModalShow">最初から</button>
-            <Multi-modal-view></Multi-modal-view>
-        </div>
         <!-- <Basic-Modal></Basic-Modal>
         <button @click="DifficultySet">DifficultySet</button>
         <button @click="showSushiSelect">showSushiSelect</button> -->
-        <div id="overlay1" v-show="showContent">
-            <div id="content">
-                <p>SUSHIゲームについての説明</p>
-                <p><button v-on:click="closeModal">close</button></p>
-            </div>
+        <div @click="displayModal()">
+            SUSHIゲームとは
         </div>
+        <ExplainGame
+        v-show="showExplain"
+        :display-modal="displayModal"/>
     </div>
 </template>
 
 
 <script>
 // import Vue from 'vue'
-import { mapMutations } from 'vuex'
-// import BasicModal from '@/components/StandardValue.vue'
-import MultiModalView from '@/components/MultiModalView.vue'
+// import { mapMutations } from 'vuex'
+import StartMenu from '@/components/StartMenu.vue'
+import StartButton from '@/components/StartButton.vue'
+import ExplainGame from '@/components/ExplainGame.vue'
 
 export default{
     name: "MetamaskAuth",
     components: {
-        // BasicModal,
-        MultiModalView
+        StartMenu,
+        StartButton,
+        ExplainGame
     },
     data (){
         return {
-            showContent: false
+            currentMenu: "StartMenu",
+            showExplain: false
         }
     },
     methods: {
-        ...mapMutations('BasicModal', {
-            BasicModalShow: 'show'
-        }),
+        // ...mapMutations('BasicModal', {
+        //     BasicModalShow: 'show'
+        // }),
         // ...mapActions('multiModal', ['DifficultySet', 'showSushiSelect'])
         // ,
+        changeCurrentMenu(menu){
+            this.currentMenu = menu
+        },
         routeMain(){
             this.$router.push('/main')
         },
-        ExplanationGameModal (){
-            this.showContent = true
+        displayModal(){
+            this.showExplain = !this.showExplain;
         },
-        closeModal (){
-            this.showContent = false
-        }
     }
 }
 </script>
 
 <style lang="scss">
-@import '@/assets/sass/ExplanationButton.scss';
 
 #auth {
     height: 100vh;
 	display: flex;
 	flex-direction: column; 
     align-items: center;
-}
 
-#auth h1 {
-    color: #842F00;
-    font-size: 50px;
-    font-family: Doppio One;
-}
+    h1 {
+        color: #842F00;
+        font-size: 50px;
+        font-family: Doppio One;
+    }
 
-#auth img {
-    width: 200px;
-    height: auto; 
+    img {
+        width: 200px;
+        height: auto; 
+    }
 }
 
 .startButton {
@@ -110,24 +109,6 @@ export default{
     font-size: 50px;
     color: #842F00;
     background-color : hsl(40, 100%, 78%);
-}
-
-#overlay1{
-    /* 要素を重ねた時の順番 */
-    z-index:1;
-
-    /* 画面全体を覆う設定 */
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background-color:rgba(0,0,0,0.5);
-
-    /* 画面の中央に要素を表示させる設定 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #content{
