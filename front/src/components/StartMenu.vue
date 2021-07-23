@@ -1,5 +1,5 @@
 <template>
-    <div class="startButton">
+    <div class="menuButton">
         スタート
     </div>
 </template>

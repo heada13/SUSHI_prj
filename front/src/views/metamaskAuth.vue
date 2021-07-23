@@ -54,6 +54,10 @@ export default{
         routeMain(){
             this.$router.push('/main')
         },
+        routeSetting(){
+            this.$router.push('/setting')
+        },
+
         displayModal(){
             this.showExplain = !this.showExplain;
         },
@@ -81,7 +85,7 @@ export default{
     }
 }
 
-.startButton {
+.menuButton {
     width: 250px;
     height: 100px;
     border-color: #842F00;
@@ -91,25 +95,6 @@ export default{
     background-color : hsl(40, 100%, 78%);
 }
 
-.beginButton {
-    width: 250px;
-    height: 100px;
-    border-color: #842F00;
-    border-radius: 5px;
-    font-size: 50px;
-    color: #842F00;
-    background-color : hsl(40, 100%, 78%);
-}
-
-.continueButton {
-    width: 250px;
-    height: 100px;
-    border-color: #842F00;
-    border-radius: 5px;
-    font-size: 50px;
-    color: #842F00;
-    background-color : hsl(40, 100%, 78%);
-}
 
 #content{
     z-index:2;

@@ -1,23 +1,51 @@
 <template>
-    <div class="HomeView">
-        <h1>main</h1>
+    <div class="ly_homeViewContainer">
+        <div class="ly_status hp_padding">
+            <Status/>
+        </div>
+        <div class="ly_main hp_padding">
+
+        </div>
+        <div class="ly_command hp_padding">
+
+        </div>
     </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import Status from '@/components/Status.vue'
+
 export default Vue.extend({
-    name: 'HomeView'
+    name: 'HomeView',
+    components: {
+        Status
+    }
 })
 </script>
 
 <style scoped>
 
-.HomeView {
-    height: 100vh;
+.ly_homeViewContainer {
+    height: 100%;
+    width: 100%;
 	display: flex;
 	flex-direction: column; 
-    align-items: center;
+    /* align-items: center; */
 }
-
+.ly_status{
+    height: 30%;
+}
+.ly_main{
+    /* width: 100%; */
+    height: 40%;
+}
+.ly_command{
+    /* width: 100%; */
+    height: 30%;
+}
+.hp_padding{
+    padding-right: 20px;
+    padding-left: 20px;
+}
 </style>
