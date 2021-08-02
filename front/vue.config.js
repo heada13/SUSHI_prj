@@ -1,3 +1,14 @@
+module.exports = {
+    assetsDir: 'static',
+    devServer: {
+      proxy: {
+        '/main':{
+          target:"http://127.0.0.1:5000",
+          logLevel: 'debug'
+        }
+      }
+    }
+  };
 // const VueLoaderPlugin = require("vue-loader/lib/plugin")
 // module.exports = {
 //     configureWebpack: {
