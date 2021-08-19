@@ -10,7 +10,7 @@
         <v-row>
             <v-col>
                 <div>
-                    <button class="menuButton">最初から</button>
+                    <button class="menuButton" @click="goSetting">最初から</button>
                 </div>
             </v-col>
         </v-row>
@@ -33,6 +33,9 @@ export default {
     methods:{
         goHome: function(){
             this.$router.push('/main')
+        },
+        goSetting: function(){
+            this.$router.push('/setting')
         }
     }
 

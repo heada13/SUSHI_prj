@@ -30,7 +30,8 @@
 export default {
     data () {
         return {
-        tableData: null
+        tableData: null,
+        selectedCoin:'bitcoin'
         }
     },
     props:{
@@ -56,7 +57,7 @@ export default {
     },
     methods: {
         updataTableData: function () {
-            this.$axios.get('/main')
+            this.$axios.get('/main/'+this.selectedCoin)
             .then(response => (this.tableData = response.data))
             .catch(error => console.log(error))
         }
