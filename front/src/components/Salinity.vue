@@ -32,8 +32,15 @@ export default {
 .bl_salinityContainer{
     display: flex;
     flex-direction: column;
+    padding-left: 100px;
+    -webkit-text-stroke: 1px #fff;
+    font-weight: bold;
     /* transform: translateX(40%); */
 
+}
+.el_salinityTitle{
+    color: black;
+    font-size: 2rem;
 }
 .salinityPercentage{
     font-size: 5rem;

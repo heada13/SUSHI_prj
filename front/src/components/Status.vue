@@ -50,7 +50,6 @@ export default {
 }
 .bl_salinity{
   width: 30%;
-  background-color: rgb(20, 157, 221);
 
 }
 .bl_price{

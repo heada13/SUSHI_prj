@@ -23,10 +23,10 @@ def add_income():
   incomes.append(request.get_json())
   return '', 204
 
-@app.route('/main',methods=['GET'])
-def get_coin():
+@app.route('/main/<coin>',methods=['GET'])
+def get_coin(coin):
     cg = CoinGeckoAPI()
     # cg.ping()
     print("run bitcoin")
-    bitcoin = cg.get_price(ids='bitcoin', vs_currencies='usd')
+    bitcoin = cg.get_price(ids=coin, vs_currencies='usd')
     return bitcoin
