@@ -28,6 +28,7 @@
 import StartMenu from '@/components/StartMenu.vue'
 import StartButton from '@/components/StartButton.vue'
 import ExplainGame from '@/components/ExplainGame.vue'
+import web3js from '@/plugins/web3.js' 
 
 export default{
     name: "MetamaskAuth",
@@ -39,8 +40,15 @@ export default{
     data (){
         return {
             currentMenu: "StartMenu",
-            showExplain: false
+            showExplain: false,
+            web3:web3js
         }
+    },
+    async created() {
+        let accounts = await this.web3.eth.getAccounts();
+        console.log(accounts)
+        let account = accounts[0]
+        console.log(account)
     },
     methods: {
         // ...mapMutations('BasicModal', {
