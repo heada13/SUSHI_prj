@@ -1,16 +1,33 @@
 import Web3 from 'web3'
+// import Artifacts from '../../build/contracts/SushiToken.json'
 
-// export default async function (context,inject){
+// async function (context,inject){
   let web3js
   if (typeof window !== 'undefined'){
     // && typeof window.web3 !== 'undefined'
     web3js = new Web3(window.web3.currentProvider);
+    window.ethereum.enable();
     console.log(web3js,"web3 instance created js")
   }
   else{
     console.log(web3js,"you should install metamask js")
   }
 
+  web3js.eth.getAccounts(function(err, accounts) {
+    let coinbase = accounts[0];
+    console.log("coinbase is " + coinbase);
+    if (typeof coinbase === 'undefined') {
+        alert("MetaMaskを起動してください．")
+    }
+  });
+  // inject("web3js",web3js);
+  // let networkId = await web3js.eth.net.getId();
+  // console.log(networkId,"networkId")
+// }
+
+  // let sushiTokenAddress = "0xB7B4E530d840e77D8023c0A3CD8a6Dd331B51Ed7"
+  // let sushiCreate = new web3js.eth.Contract(Artifacts.abi, sushiTokenAddress);
+  // console.log(sushiCreate,"sushi create")
   // let networkId = await web3.eth.net.getId();
   // inject('web3',web3)
 // }
