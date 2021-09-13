@@ -1,10 +1,12 @@
 #folder
+dist/
 build/
 node_modules/
 
 # Environments
 .env
 .venv
+.envrc
 env/
 venv/
 ENV/

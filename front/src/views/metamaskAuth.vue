@@ -18,6 +18,7 @@
         <ExplainGame
         v-show="showExplain"
         :display-modal="displayModal"/>
+        <v-btn @click="getToken">test</v-btn>
     </div>
 </template>
 
@@ -29,26 +30,38 @@ import StartMenu from '@/components/StartMenu.vue'
 import StartButton from '@/components/StartButton.vue'
 import ExplainGame from '@/components/ExplainGame.vue'
 import web3js from '@/plugins/web3.js' 
-
+import Artifacts from '../../build/contracts/SushiToken.json'
+// const SushiCreate = contract(artifacts)
 export default{
     name: "MetamaskAuth",
     components: {
         StartMenu,
         StartButton,
-        ExplainGame
+        ExplainGame,
+        // Artifacts
     },
     data (){
         return {
             currentMenu: "StartMenu",
             showExplain: false,
-            web3:web3js
+            web3:web3js,
+            contract:Artifacts,
+            sushiContract:null,
+            account:null
         }
     },
     async created() {
         let accounts = await this.web3.eth.getAccounts();
-        console.log(accounts)
-        let account = accounts[0]
-        console.log(account)
+        // let accounts = await this.web3.eth.net.getId();
+        this.account = accounts[0];
+        console.log(this.account,"account");
+
+        // let sushiTokenAddress = "0xB7B4E530d840e77D8023c0A3CD8a6Dd331B51Ed7";
+        let sushiTokenAddress = "0xC433767C0C08B6Abc7cB45e09430AED9ed59b254";
+        let sushiCreate = new web3js.eth.Contract(this.contract.abi, sushiTokenAddress);
+        this.sushiContract = sushiCreate;
+        // let account = accounts[0]
+        console.log(sushiCreate,"sushi contract");
     },
     methods: {
         // ...mapMutations('BasicModal', {
@@ -69,6 +82,24 @@ export default{
         displayModal(){
             this.showExplain = !this.showExplain;
         },
+
+        getToken: async function(){
+            // let ret = 
+            await this.sushiContract.methods.createSushi(0,20210907,0,0,"easy").send({
+                from:this.account})
+                .then(function(receipt){
+                    console.log(receipt,"sucsess")
+                })
+                // function(error,result){
+                //     console.log(result,"sucsess")
+                // }
+            // }
+            // .then(function(value){
+            //     console.log(value,"getToken")
+            // });
+            // return ret
+            // return this.sushiContract.methods.createSushi(0,20210907,0,"ddd","easy").call();
+        }
     }
 }
 </script>
