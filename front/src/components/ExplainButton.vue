@@ -26,7 +26,6 @@ export default {
 }
 .el_buttonName{
   padding: 10px 30px;
-  /* width: 100px; */
   /* height: 40px; */
 }
 </style>
