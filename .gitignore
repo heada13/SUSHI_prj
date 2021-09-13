@@ -6,7 +6,7 @@ node_modules/
 # Environments
 .env
 .venv
-# .envrc
+.envrc
 env/
 venv/
 ENV/
