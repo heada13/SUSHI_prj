@@ -40,13 +40,15 @@ export default {
 }
 .el_salinityTitle{
     color: black;
-    font-size: 2rem;
+    /* font-size: 2rem; */
 }
 .salinityPercentage{
-    font-size: 5rem;
+    /* font-size: 5rem; */
+    font-size: 50px;
     transform: translateY(-10%);
 }
 .persentage{
-    font-size: 3rem;
+    font-size: 30px;
+    /* font-size: 3rem; */
 }
 </style>

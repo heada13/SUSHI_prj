@@ -4,10 +4,10 @@
             <Status/>
         </div>
         <div class="ly_main hp_padding">
-
+            <img src="../assets/SUSHI.png" alt="sushi">
         </div>
         <div class="ly_command hp_padding">
-
+            <EAB/>
         </div>
     </div>
 </template>
@@ -15,11 +15,13 @@
 <script>
 import Vue from 'vue'
 import Status from '@/components/Status.vue'
+import EAB from '@/components/EaseAndBirth.vue'
 
 export default Vue.extend({
     name: 'HomeView',
     components: {
-        Status
+        Status,
+        EAB
     }
 })
 </script>
@@ -35,13 +37,17 @@ export default Vue.extend({
 }
 .ly_status{
     height: 30%;
+    /* width: 100%; */
 }
 .ly_main{
+    display: flex;
+    align-content: center;
+    justify-content: center;
     /* width: 100%; */
     height: 40%;
 }
 .ly_command{
-    /* width: 100%; */
+    width: 100%;
     height: 30%;
 }
 .hp_padding{

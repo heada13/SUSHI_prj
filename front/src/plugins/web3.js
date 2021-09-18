@@ -20,6 +20,13 @@ import Web3 from 'web3'
         alert("MetaMaskを起動してください．")
     }
   });
+
+  // const sushiTokenAddress = "0xC433767C0C08B6Abc7cB45e09430AED9ed59b254";
+  // const sushiCreate = new web3js.eth.Contract(Artifacts.abi, sushiTokenAddress);
+  // let sushiCreate = new web3js.eth.Contract(Artifacts.abi, sushiTokenAddress);
+  // console.log(sushiCreate,"contract");
+
+
   // inject("web3js",web3js);
   // let networkId = await web3js.eth.net.getId();
   // console.log(networkId,"networkId")
