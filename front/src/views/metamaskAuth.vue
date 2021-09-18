@@ -51,13 +51,20 @@ export default{
         }
     },
     async created() {
+        // コンポーネントにimportした場合
         let accounts = await this.web3.eth.getAccounts();
-        // let accounts = await this.web3.eth.net.getId();
         this.account = accounts[0];
         console.log(this.account,"account");
 
-        // let sushiTokenAddress = "0xB7B4E530d840e77D8023c0A3CD8a6Dd331B51Ed7";
-        let sushiTokenAddress = "0xC433767C0C08B6Abc7cB45e09430AED9ed59b254";
+        // pluginからimportした場合
+        // let accounts = await this.$web3.eth.getAccounts();
+        // let account = accounts[0]
+        // console.log(account,"account by plugin")
+
+        // let accounts = await this.web3.eth.net.getId();
+        
+
+        const sushiTokenAddress = "0xC433767C0C08B6Abc7cB45e09430AED9ed59b254";
         let sushiCreate = new web3js.eth.Contract(this.contract.abi, sushiTokenAddress);
         this.sushiContract = sushiCreate;
         // let account = accounts[0]
@@ -85,17 +92,17 @@ export default{
 
         getToken: async function(){
             // let ret = 
-            await this.sushiContract.methods.createSushi(0,20210907,0,0,"easy").send({
-                from:this.account})
+            await this.sushiContract.methods.createSushi(0,20210907,0,0,"easy")
+                .send({from:this.account})
                 .then(function(receipt){
                     console.log(receipt,"sucsess")
                 })
                 // function(error,result){
-                //     console.log(result,"sucsess")
+                    // console.log(result,"sucsess")
                 // }
             // }
             // .then(function(value){
-            //     console.log(value,"getToken")
+                // console.log(value,"getToken")
             // });
             // return ret
             // return this.sushiContract.methods.createSushi(0,20210907,0,"ddd","easy").call();

@@ -1,10 +1,15 @@
 <template>
   <div class="el_priceContainer">
       <div class="el_basePrice">
-        <span class="el_basePriceTitle">
+        <div class="el_basePriceTitle">
             基準値
-        </span>
-        <span class="el_basePriceValue">{{basePrice}}</span>
+        </div>
+        <div class="el_basePriceValue">{{basePrice}}</div>
+        <!-- <span> -->
+            <div class="el_priceChangeButton" @click="change">
+                変更
+            </div>
+        <!-- </span> -->
       </div>
       <div class="el_marketPrice">
           <span class="el_marketPriceTitle">
@@ -73,10 +78,31 @@ export default {
     flex-direction: column;
 }
 .el_basePrice{
+    display: flex;
+    flex-direction: row;
     height: 30%;
+    padding-top: 5px;
 }
 .el_marketPrice{
     height: 70%;
 }
-
+.el_basePriceValue{
+    margin-left: 5px;
+}
+.el_priceChangeButton{
+    width: 50px;
+    height: 20px;
+    /* padding: 5px; */
+    margin-left: 5px;
+    background-color: #FFD98E;
+    color: #842F00;
+    font-weight: bold;
+    /* font-size: 50px; */
+    border-radius: 3px;
+    text-align: center;
+    /* justify-content: center; */
+}
+.el_marketPriceValue{
+    font-size: 50px;
+}
 </style>
