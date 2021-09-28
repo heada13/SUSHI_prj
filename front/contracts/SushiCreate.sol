@@ -10,6 +10,13 @@ import "../node_modules/openzeppelin-solidity/contracts/utils/Counters.sol";
 import "../node_modules/openzeppelin-solidity/contracts/access/AccessControlEnumerable.sol";
 // import "../node_modules/openzeppelin-solidity/contracts/token/ERC721/presets/ERC721PresetMinterPauserAutoId.sol";
 
+// for remix
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721Pausable.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Counters.sol";
+
 contract SushiToken is 
   ERC721,
   ERC721Enumerable,
@@ -54,7 +61,8 @@ contract SushiToken is
 
   // mapping (address => uint256) public sushiOwnerToTokenId;
   // Mapping from owner to a list of owned sushi
-  mapping (address => uint[]) public sushiOwner;
+  // mapping (address => uint[]) public sushiOwner;
+  mapping (address => uint) public sushiOwner;
 
   // @dev A mapping from owner address to count of tokens that address owns.
   //  Used internally inside balanceOf() to resolve ownership count.
@@ -98,7 +106,8 @@ contract SushiToken is
 
     // オーナーごとに所有するsushiの配列位置をarray形式で格納する
     // オーナーアドレスから、所有する全てのsushiが把握できる
-    sushiOwner[msg.sender].push(id);
+    // sushiOwner[msg.sender].push(id);
+    sushiOwner[msg.sender] = id;
     // sushiOwnerToTokenId[msg.sender] = _tokenIdTracker._value;
 
     // オーナーのsushi所持数をインクリメント
@@ -113,15 +122,15 @@ contract SushiToken is
   }
 
   // コントラクト実行者が、alive状態のsushiを持っているかどうかをチェック
-  modifier ownAliveSushi () {
+  // modifier ownAliveSushi () {
     // オーナーが所有する全てのsushiを走査し、alive状態のsushiの有無を確認する
-    uint[] memory tmpSushiOwner = sushiOwner[msg.sender];
-    for (uint i; i<=tmpSushiOwner.length; i++){
+    // uint memory tmpSushiOwner = sushiOwner[msg.sender];
+    // for (uint i; i<=tmpSushiOwner.length; i++){
     // sushis[sushiId].aliveFlag == 0);
-      require(sushis[sushiOwner[msg.sender][i]].aliveFlag ==0);
-    }
-    _;
-  }
+      // require(sushis[sushiOwner[msg.sender][i]].aliveFlag ==0);
+    // }
+    // _;
+  // }
 
   function mint(address to) public virtual {
         require(hasRole(MINTER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have minter role to mint");
@@ -150,4 +159,9 @@ contract SushiToken is
     {
         return super.supportsInterface(interfaceId);
     }
+
+  function chnageCharaImage (uint32 changeimage) public {
+      uint tmpowner = sushiOwner[msg.sender];
+      sushis[tmpowner].charactorImage = changeimage;
+  }
 }

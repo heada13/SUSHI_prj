@@ -14,7 +14,8 @@ export default {
 <style scoped>
 
 #app{
-  background-color: #DBFFD6;
+  /* background-color: #DBFFD6; */
+  background: linear-gradient(0deg,rgb(1, 4, 49),rgb(104, 152, 255));
   height: 100vh;
 }
 * {
