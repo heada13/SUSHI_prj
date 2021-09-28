@@ -18,7 +18,11 @@
         <ExplainGame
         v-show="showExplain"
         :display-modal="displayModal"/>
+        <!-- トークンmintボタン -->
         <v-btn @click="getToken">test</v-btn>
+        <v-btn @click="soySauceAddCount">test1</v-btn>
+        <v-btn @click="waterAddCount">test2</v-btn>
+        
     </div>
 </template>
 
@@ -47,7 +51,9 @@ export default{
             web3:web3js,
             contract:Artifacts,
             sushiContract:null,
-            account:null
+            account:null,
+            soySauceCount:0,
+            waterCount:0
         }
     },
     async created() {
@@ -70,6 +76,15 @@ export default{
         // let account = accounts[0]
         console.log(sushiCreate,"sushi contract");
     },
+    // mounted() {
+    //     if (localStorage.soySauceCount) {
+    //         this.soySauceCount = localStorage.soySauceCount;
+    //     }
+    //     if (localStorage.waterCount) {
+    //         this.waterCount = localStorage.waterCount;
+    //     }
+        
+    // },
     methods: {
         // ...mapMutations('BasicModal', {
         //     BasicModalShow: 'show'
@@ -106,7 +121,18 @@ export default{
             // });
             // return ret
             // return this.sushiContract.methods.createSushi(0,20210907,0,"ddd","easy").call();
+        },
+        soySauceAddCount: function(){
+            let addCount = this.soySauceCount++;
+            localStorage.soySauceCount = addCount
+        },
+        waterAddCount: function(){
+            let addCount = this.waterCount++;
+            localStorage.waterCount = addCount
         }
+
+
+
     }
 }
 </script>
