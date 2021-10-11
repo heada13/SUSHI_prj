@@ -11,7 +11,12 @@
             ref="child2"/> 
         </div>
         <div class="ly_main hp_padding">
-            <img src="../assets/SUSHI.png" alt="sushi">
+            <img
+            max-height="150"
+            max-width="250"
+            :src="arweaveimg"
+            alt="sushi"
+            />
         </div>
         <div class="el_footer">
             <div class="el_sushiRank">
@@ -46,6 +51,7 @@
 import Feeding from '@/components/FeedingButton.vue'
 import SoySauceCounterPanel from '@/components/SoySauceCounterPanel.vue'
 import WaterCounterPanel from '@/components/WaterCounterPanel.vue'
+// import Arweave from 'arweave';
 
 export default {
     name: 'HomeView',
@@ -55,7 +61,8 @@ export default {
             waterCount:0,
             totalCount:10,
             soySauceBackgroundColor:'#842F00',
-            waterBackgroundColor:'#8DBAFF'
+            waterBackgroundColor:'#8DBAFF',
+            arweaveimg:""
             // datacollection: null,
             // chartItems: {
             //     // labels: [
@@ -180,12 +187,57 @@ export default {
         waterButtonClick: function(){
             this.waterflashTrigger();
             this.waterCounter();
-        }
+        },
         // ...mapMutations({
         //     click: 'click' // `this.click()`にマッピングされます
         // })
+        testArweave:function(){
+            fetch('https://arweave.net/JOlCyl8iljqCNxuDHdX-E5yNns73gU0pSn_oEcSHal0').
+            then((res)=> {
+                console.log("arweave",res)
+                return res.blob();
+                
+            }).then(blob => {
+                const url = (window.URL || window.webkitURL).createObjectURL(blob)
+                this.arweaveimg = url;
+            });
+            // const Arweave = require('arweave');
+            // console.log("Arweave",Arweave)
+            // const arweave = Arweave.init({
+                // host: 'localhost',
+                // port: 8080,
+                // protocol: 'http'
+                // host: 'arweave.net',
+                // port: 443,
+                // protocol: 'https'
+            // });
+            // arweave.transactions.getStatus('bNbA3TEQVL60xlgCcqdz4ZPHFZ711cZ3hmkpGttDt_U').then(res => {
+            // console.log(res);
+            // })
+            // console.log(arweave)
+        },
     },
-    crated() {
+    async created() {
+        await this.testArweave();
+        // fetch('https://arweave.net/JOlCyl8iljqCNxuDHdX-E5yNns73gU0pSn_oEcSHal0').
+        //     then((res)=> {
+        //         console.log("arweave",res)
+        //         return res.blob();
+                
+        //     }).then(blob => {
+        //         const url = (window.URL || window.webkitURL).createObjectURL(blob)
+        //         this.arweaveimg = url;
+        //     });
+        // const Arweave = require('arweave');
+        // const arweave = Arweave.init({
+        //     host: '192.168.2.105',
+        //     port: 1984,
+        //     protocol: 'http'
+        // });
+        // // arweave.transactions.getStatus('bNbA3TEQVL60xlgCcqdz4ZPHFZ711cZ3hmkpGttDt_U').then(res => {
+        // // console.log(res);
+        // // })
+        // console.log("arweave",arweave)
         // if (localStorage.soySauceCount) {
             // this.chartItems.datasets[0].data[0] = localStorage.soySauceCount;
         // }
