@@ -18,6 +18,8 @@
     "gsap": "^3.7.1",
     "lodash": "^4.17.21",
     "openzeppelin-solidity": "4.3.0",
+    "velocity": "^0.7.3",
+    "velocity-animate": "^1.5.2",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.4.2",
     "vue-router": "^3.4.9",

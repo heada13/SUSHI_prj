@@ -11,12 +11,30 @@
             ref="child2"/> 
         </div>
         <div class="ly_main hp_padding">
-            <img
-            max-height="150"
-            max-width="250"
-            :src="arweaveimg"
-            alt="sushi"
-            />
+            <transition v-on:enter="soyenter">
+            <!-- <div v-if="soyIsActive"> -->
+                <img
+                v-if="soyIsActive"
+                class="soySaucePng" 
+                src="@/assets/soysauce.png" 
+                alt="soy">
+            <!-- </div> -->
+            </transition>
+            <!-- <div v-if="waterIsActive"> -->
+            <transition v-on:enter="waterenter">
+                <img
+                v-if="waterIsActive"
+                class="waterPng" 
+                src="@/assets/water.png" 
+                alt="water">
+            </transition>
+            <!-- </div> -->
+            <div class="el_sushiImage">
+                <img
+                :src="arweaveimg"
+                alt="sushi"
+                />
+            </div>
         </div>
         <div class="el_footer">
             <div class="el_sushiRank">
@@ -38,7 +56,7 @@
                         <template v-slot:feedingItem>
                             水
                         </template>
-                    </Feeding>
+                    </Feeding>  
                 </div>
             </div>
         </div>
@@ -52,6 +70,7 @@ import Feeding from '@/components/FeedingButton.vue'
 import SoySauceCounterPanel from '@/components/SoySauceCounterPanel.vue'
 import WaterCounterPanel from '@/components/WaterCounterPanel.vue'
 // import Arweave from 'arweave';
+const velocity = require('velocity-animate')
 
 export default {
     name: 'HomeView',
@@ -62,7 +81,11 @@ export default {
             totalCount:10,
             soySauceBackgroundColor:'#842F00',
             waterBackgroundColor:'#8DBAFF',
-            arweaveimg:""
+            arweaveimg:"",
+            soyIsActive:false,
+            waterIsActive:false,
+            soyInterval: null,
+            waterInterval: null,
             // datacollection: null,
             // chartItems: {
             //     // labels: [
@@ -123,6 +146,37 @@ export default {
         }
     },
     methods:{
+        // beforeEnter: function (el) {
+        //     el.style.opacity = 0
+        //     el.style.transformOrigin = 'left'
+        // },
+        // enter: function (el, done) {
+        //     velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+        //     velocity(el, { fontSize: '1em' }, { complete: done })
+        // },
+        soyenter: function (el) {
+            velocity(el,{
+                duration:100,
+                translateY: '200px',
+                // opacity: 0
+            });
+            if(this.soyIsActive){
+                this.soyIsActive = !this.soyIsActive;
+            }
+            // if(this.waterIsActive){
+            // this.waterIsActive = !this.waterIsActive
+            // }
+        },
+        waterenter: function (el) {
+            velocity(el,{
+                duration:100,
+                translateY: '200px',
+                // opacity: 0
+            });
+            if(this.waterIsActive){
+                this.waterIsActive = !this.waterIsActive;
+            }
+        },
         // fillData() {
         //     this.datacollection = {
         //         // chartItems: {
@@ -183,10 +237,35 @@ export default {
         soySauceButtonClick: function(){
             this.soySauceflashTrigger();
             this.soySauceCounter();
+            this.soyFeedAction();
         },
         waterButtonClick: function(){
             this.waterflashTrigger();
             this.waterCounter();
+            this.waterFeedAction();
+        },
+        soyFeedAction: function(){
+            this.soyIsActive = !this.soyIsActive;
+            // this.soyInterval=setInterval(() => {
+            //     // animation stop
+            //     this.soyIsActive = false
+            //     // clear interval
+            //     clearInterval(this.soyInterval)
+            //     this.soyInterval = null
+            // }, 700)
+        },
+        // waterFeedAction: function(){
+        //     this.waterIsActive = true;
+        //     setInterval(() => {
+        //         // animation stop
+        //         this.waterIsActive = false
+        //         // clear interval
+        //         // clearInterval(this.waterInterval)
+        //         this.waterInterval = null
+        //     }, 700)
+        // },
+        waterFeedAction: function(){
+            this.waterIsActive = !this.waterIsActive;
         },
         // ...mapMutations({
         //     click: 'click' // `this.click()`にマッピングされます
@@ -289,6 +368,7 @@ export default {
     justify-content: center;
     /* width: 100%; */
     height: 40%;
+    position: relative;
 }
 
 .el_sushiRank{
@@ -315,4 +395,26 @@ export default {
     flex-direction: row;
     height: 30%;
 }
+
+.soySaucePng{
+    position: absolute;
+    right: 47%;
+    height: 100px;
+}
+
+.waterPng{
+    position: absolute;
+    right: 47%;
+    height: 100px;
+    /* width: 100px; */
+    /* visibility:hidden; */
+    /* transform: translateX(200px); */
+    /* animation-name: example; */
+    /* animation-duration: 1s; */
+}
+
+img{
+    height: 300px;
+}
+
 </style>
