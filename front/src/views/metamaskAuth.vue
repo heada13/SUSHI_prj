@@ -20,8 +20,8 @@
         :display-modal="displayModal"/>
         <!-- トークンmintボタン -->
         <v-btn @click="getToken">test</v-btn>
-        <v-btn @click="soySauceAddCount">test1</v-btn>
-        <v-btn @click="waterAddCount">test2</v-btn>
+        <!-- <v-btn @click="soySauceAddCount">test1</v-btn> -->
+        <!-- <v-btn @click="waterAddCount">test2</v-btn> -->
         
     </div>
 </template>
@@ -70,7 +70,8 @@ export default{
         // let accounts = await this.web3.eth.net.getId();
         
 
-        const sushiTokenAddress = "0xC433767C0C08B6Abc7cB45e09430AED9ed59b254";
+        // const sushiTokenAddress = "0xC433767C0C08B6Abc7cB45e09430AED9ed59b254";
+        const sushiTokenAddress ="0xE44543D7fe0d7531F313762F17ca94aa15244Fd1"
         let sushiCreate = new web3js.eth.Contract(this.contract.abi, sushiTokenAddress);
         this.sushiContract = sushiCreate;
         // let account = accounts[0]
@@ -107,7 +108,7 @@ export default{
 
         getToken: async function(){
             // let ret = 
-            await this.sushiContract.methods.createSushi(0,20210907,0,0,"easy")
+            await this.sushiContract.methods.createSushi(20210907,"aaaa")
                 .send({from:this.account})
                 .then(function(receipt){
                     console.log(receipt,"sucsess")
