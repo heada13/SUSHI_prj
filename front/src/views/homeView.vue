@@ -12,13 +12,11 @@
         </div>
         <div class="ly_main hp_padding">
             <transition v-on:enter="soyenter">
-            <!-- <div v-if="soyIsActive"> -->
                 <img
                 v-if="soyIsActive"
                 class="soySaucePng" 
                 src="@/assets/soysauce.png" 
                 alt="soy">
-            <!-- </div> -->
             </transition>
             <!-- <div v-if="waterIsActive"> -->
             <transition v-on:enter="waterenter">
@@ -38,11 +36,12 @@
         </div>
         <div class="el_footer">
             <div class="el_sushiRank">
-
+                <RankPanel
+                :passRank="rank"/>
             </div>
             <div class="ly_command">
                 <!-- <EAB/> -->
-                <div @click="soySauceButtonClick">
+                <div @click="soySauceButtonClick('soy')">
                     <Feeding
                     :background-color="soySauceBackgroundColor">
                         <template v-slot:feedingItem>
@@ -50,7 +49,7 @@
                         </template>
                     </Feeding>
                 </div>
-                <div @click="waterButtonClick">
+                <div @click="waterButtonClick('water')">
                     <Feeding
                     :background-color="waterBackgroundColor">
                         <template v-slot:feedingItem>
@@ -69,6 +68,11 @@
 import Feeding from '@/components/FeedingButton.vue'
 import SoySauceCounterPanel from '@/components/SoySauceCounterPanel.vue'
 import WaterCounterPanel from '@/components/WaterCounterPanel.vue'
+import RankPanel from '@/components/RankPanel.vue'
+import web3js from '@/plugins/web3.js' 
+import Artifacts from '../../build/contracts/SushiToken.json'
+
+
 // import Arweave from 'arweave';
 const velocity = require('velocity-animate')
 
@@ -86,36 +90,14 @@ export default {
             waterIsActive:false,
             soyInterval: null,
             waterInterval: null,
-            // datacollection: null,
-            // chartItems: {
-            //     // labels: [
-            //     //     'Red',
-            //     //     'Blue',
-            //     //     'Yellow'
-            //     // ],
-            //     datasets: [{
-            //         label: 'My First Dataset',
-            //         data: [
-            //             0,
-            //             0,
-            //             10
-            //         ],
-            //         backgroundColor: [
-            //         'rgb(255, 99, 132)',
-            //         'rgb(54, 162, 235)',
-            //         'rgb(255, 205, 86)'
-            //         ],
-            //         hoverOffset: 3,
-            //         borderWidth: 1,
-            //         aspectRatio:1
-            //     }]
-            // },
-            // chartOptions: {
-            //     maintainAspectRatio: false,
-            //     responsive:true,
-            //     rotation: -1.0 * Math.PI,
-            //     circumference: Math.PI,
-            // }   
+            web3:web3js,
+            account:null,
+            contract:Artifacts,
+            sushiContract:null,
+            rank:null,
+            // soySauceButton:true,
+            // waterButton:true,
+            buttonActive:true
         }
     },
 
@@ -127,6 +109,7 @@ export default {
         // CounterPanel,
         SoySauceCounterPanel,
         WaterCounterPanel,
+        RankPanel,
     },
     beforeMount(){
         // 画面表示時にlocalstorageから醤油と水のカウントを取得
@@ -144,6 +127,7 @@ export default {
         else{
             localStorage.waterCount = 0;
         }
+
     },
     methods:{
         // beforeEnter: function (el) {
@@ -177,56 +161,31 @@ export default {
                 this.waterIsActive = !this.waterIsActive;
             }
         },
-        // fillData() {
-        //     this.datacollection = {
-        //         // chartItems: {
-        //         // labels: [
-        //         //     'Red',
-        //         //     'Blue',
-        //         //     'Yellow'
-        //         // ],
-        //         datasets: [{
-        //             label: 'My First Dataset',
-        //             data: [
-        //                 this.getSoyCount(),
-        //                 this.getWaterCount(),
-        //                 10
-        //             ],
-        //             backgroundColor: [
-        //             'rgb(255, 99, 132)',
-        //             'rgb(54, 162, 235)',
-        //             'rgb(255, 205, 86)'
-        //             ],
-        //             hoverOffset: 3,
-        //             borderWidth: 1,
-        //             aspectRatio:1
-        //         }],
-        //         // chartOptions: {
-        //         //     maintainAspectRatio: false,
-        //         //     responsive:true,
-        //         //     rotation: -1.0 * Math.PI,
-        //         //     circumference: Math.PI,
-        //         // }   
-        //     }
-        // },
-        soySauceCounter: function(){
+        Counter: function(feed){
             // 醤油カウントをインクリする前に、醤油＋水＝合計の条件を満たしているかチェック
-            if( this.soySauceCount + this.waterCount < this.totalCount ){
-                this.soySauceCount++;
-                localStorage.soySauceCount = this.soySauceCount;
-                console.log("soy count!!")
+            if(this.buttonActive){
+                if( this.soySauceCount + this.waterCount < this.totalCount ){
+                    if(feed=='soy'){
+                        this.soySauceCount++;
+                        localStorage.setItem('soySauceCount', this.soySauceCount);
+                    }else if(feed=='water'){
+                        this.waterCount++;
+                        localStorage.setItem('soySauceCount', this.waterCount);
+                    }
+                    // localStorage.soySauceCount = this.soySauceCount;
+                    // localStorage.setItem('soySauceCount', this.soySauceCount);
+                    
+                    console.log("soy count!!")
+                }else{
+                    //進化時は醤油ボタンをロックする
+                    this.buttonActive = false;
+                    this.evolution();
+                    console.log("not count!!")             
+                }
+                // console.log(localStorage.soySauceCount,"soy count")
             }else{
-                console.log("not count!!")                
+                console.log("button false")
             }
-            console.log(localStorage.soySauceCount,"soy count")
-        },
-        waterCounter: function(){
-            if(this.soySauceCount + this.waterCount < this.totalCount){
-                this.waterCount++;
-                localStorage.waterCount = this.waterCount;
-                console.log("water count!!")
-            }
-            console.log(localStorage.waterCount,"water count")
         },
         soySauceflashTrigger: function(){
             this.$refs.child1.flash();
@@ -234,14 +193,14 @@ export default {
         waterflashTrigger: function(){
             this.$refs.child2.flash();
         },
-        soySauceButtonClick: function(){
+        soySauceButtonClick: function(feed){
             this.soySauceflashTrigger();
-            this.soySauceCounter();
+            this.Counter(feed);
             this.soyFeedAction();
         },
-        waterButtonClick: function(){
+        waterButtonClick: function(feed){
             this.waterflashTrigger();
-            this.waterCounter();
+            this.Counter(feed);
             this.waterFeedAction();
         },
         soyFeedAction: function(){
@@ -254,75 +213,86 @@ export default {
             //     this.soyInterval = null
             // }, 700)
         },
-        // waterFeedAction: function(){
-        //     this.waterIsActive = true;
-        //     setInterval(() => {
-        //         // animation stop
-        //         this.waterIsActive = false
-        //         // clear interval
-        //         // clearInterval(this.waterInterval)
-        //         this.waterInterval = null
-        //     }, 700)
-        // },
         waterFeedAction: function(){
             this.waterIsActive = !this.waterIsActive;
         },
-        // ...mapMutations({
-        //     click: 'click' // `this.click()`にマッピングされます
-        // })
-        testArweave:function(){
-            fetch('https://arweave.net/JOlCyl8iljqCNxuDHdX-E5yNns73gU0pSn_oEcSHal0').
-            then((res)=> {
-                console.log("arweave",res)
-                return res.blob();
-                
-            }).then(blob => {
-                const url = (window.URL || window.webkitURL).createObjectURL(blob)
-                this.arweaveimg = url;
-            });
-            // const Arweave = require('arweave');
-            // console.log("Arweave",Arweave)
-            // const arweave = Arweave.init({
-                // host: 'localhost',
-                // port: 8080,
-                // protocol: 'http'
-                // host: 'arweave.net',
-                // port: 443,
-                // protocol: 'https'
-            // });
-            // arweave.transactions.getStatus('bNbA3TEQVL60xlgCcqdz4ZPHFZ711cZ3hmkpGttDt_U').then(res => {
-            // console.log(res);
-            // })
-            // console.log(arweave)
+        resetCounter: function(){
+            this.soySauceCount = 0;
+            localStorage.setItem('soySauceCount', this.soySauceCount);
+            this.waterCount = 0;
+            localStorage.setItem('waterCount',this.waterCount);
         },
+        testArweave:function(){
+            //アドレスを動的に変更できるようにする
+            this.sushiContract.methods.tokenURI(0).call().then((res) => {
+                console.log(res,"sushiImgURL res")
+                console.log(typeof(res),"sushiImgURL types")
+                return res
+                // return String(res)
+                // fetch('https://arweave.net/JOlCyl8iljqCNxuDHdX-E5yNns73gU0pSn_oEcSHal0').
+            }).then((data) => {
+                // let tmpdata = 'https://arweave.net/JOlCyl8iljqCNxuDHdX-E5yNns73gU0pSn_oEcSHal0'
+                // let tmpdata = data
+                console.log(data,"data")
+                // console.log(tmpdata,"tmpdata")
+                fetch(data).
+                then((response)=> {
+                    console.log("arweave",response)
+                    return response.blob();
+                    
+                }).then(blob => {
+                    const url = (window.URL || window.webkitURL).createObjectURL(blob)
+                    this.arweaveimg = url;
+                });
+            })
+
+            
+        },
+        evolution: async function(){
+            var comp = this;
+            this.sushiContract.methods.evoloveSushi("maguro","bbbb")
+            .send({from:this.account})
+                .then(function(receipt){
+                    console.log(receipt,"evolve sucsess")
+                })
+                .then(function(resolve){
+                    // 進化処理後にカウンターをリセット
+                    comp.resetCounter();
+
+                    // 進化処理後にsushiランクを再取得
+                    comp.getSushiRank();
+
+                    // 進化処理後にsushiイメージを再取得
+                    comp.testArweave();
+                    console.log(resolve);
+                })
+                .then(function(resolve){
+                    // 進化処理の最後に、ボタンのロックを解除 
+                    comp.buttonActive = true;
+                    console.log(resolve);
+                })
+                .catch(function(e){
+                    // トランザクション中断でボタンをアンロック
+                    comp.buttonActive = true;
+                    console.log(e,"e");
+                })
+        },
+        getSushiRank:function(){
+            this.sushiContract.methods.sushis(0).call().then((sushi) => {
+                this.rank = sushi.sushiRank;
+            });
+        },
+
     },
     async created() {
+        let accounts = await this.web3.eth.getAccounts();
+        this.account = accounts[0];
+        const sushiTokenAddress ="0xE44543D7fe0d7531F313762F17ca94aa15244Fd1"
+        let sushiCreate = new web3js.eth.Contract(this.contract.abi, sushiTokenAddress);
+        this.sushiContract = sushiCreate;
         await this.testArweave();
-        // fetch('https://arweave.net/JOlCyl8iljqCNxuDHdX-E5yNns73gU0pSn_oEcSHal0').
-        //     then((res)=> {
-        //         console.log("arweave",res)
-        //         return res.blob();
-                
-        //     }).then(blob => {
-        //         const url = (window.URL || window.webkitURL).createObjectURL(blob)
-        //         this.arweaveimg = url;
-        //     });
-        // const Arweave = require('arweave');
-        // const arweave = Arweave.init({
-        //     host: '192.168.2.105',
-        //     port: 1984,
-        //     protocol: 'http'
-        // });
-        // // arweave.transactions.getStatus('bNbA3TEQVL60xlgCcqdz4ZPHFZ711cZ3hmkpGttDt_U').then(res => {
-        // // console.log(res);
-        // // })
-        // console.log("arweave",arweave)
-        // if (localStorage.soySauceCount) {
-            // this.chartItems.datasets[0].data[0] = localStorage.soySauceCount;
-        // }
-        // if (localStorage.waterCount) {
-            // this.chartItems.datasets[0].data[1] = localStorage.waterCount;
-        // }
+        await this.getSushiRank();
+        
         // tokenのランクを読み取り、ランクに応じてtotalCountを変更する
         // this.sushiContract.methods.sushis(0).call().then((sushi) => {
             // this.stoken = sushi.birthTime;
@@ -374,7 +344,7 @@ export default {
 .el_sushiRank{
     width: 30%;
     /* height: 100%; */
-    background-color: teal;
+    /* background-color: teal; */
 }
 
 .ly_command{

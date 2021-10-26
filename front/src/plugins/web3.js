@@ -2,6 +2,7 @@ import Web3 from 'web3'
 // import Artifacts from '../../build/contracts/SushiToken.json'
 
 // async function (context,inject){
+  
   let web3js
   if (typeof window !== 'undefined'){
     // && typeof window.web3 !== 'undefined'
@@ -20,6 +21,10 @@ import Web3 from 'web3'
         alert("MetaMaskを起動してください．")
     }
   });
+
+  // const sushiTokenAddress ="0xE44543D7fe0d7531F313762F17ca94aa15244Fd1"
+  // const sushiCreate = new web3js.eth.Contract(Artifacts.abi, sushiTokenAddress);
+  // console.log(sushiCreate);
 
   // const sushiTokenAddress = "0xC433767C0C08B6Abc7cB45e09430AED9ed59b254";
   // const sushiCreate = new web3js.eth.Contract(Artifacts.abi, sushiTokenAddress);
